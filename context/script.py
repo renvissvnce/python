@@ -26,19 +26,20 @@ def string_validation_by_length(iter_data: Iterator, word_lenght: int) -> List[s
             return unique_lines
 
 
-def write_to_output_file(output_file: Union[str, None], validated_data: List[str]) -> None:
-    if not isinstance(output_file, str):
+def write_to_output(output_stream: Union[str, None], validated_data: List[str]) -> None:
+    if not isinstance(output_stream, str):
         print(validated_data,
               f'\nSummary strings with specified symbol number is - {len(validated_data)}')
     else:
-        with open(output_file, 'w+', encoding='utf-8') as file:
+        with open(output_stream, 'w+', encoding='utf-8') as file:
             file.writelines(validated_data)
+            file.write(f'\nSummary strings with specified symbol number is - {len(validated_data)}')
 
 
-def result(input_file: Union[str, None], output_file: Union[str, None], length_of_word: int) -> None:
-    data = read_input(input_file)
+def result(input_stream: Union[str, None], output_stream: Union[str, None], length_of_word: int) -> None:
+    data = read_input(input_stream)
     validated_data = string_validation_by_length(data, length_of_word)
-    write_to_output_file(output_file, validated_data)
+    write_to_output(output_stream, validated_data)
 
 
 def main():
@@ -49,7 +50,7 @@ def main():
                         help='file must be txt format IF variable is empty result will be printed in stdout')
     parser.add_argument('-n', '--number', type=int, required=True, default=10, help='number of symbols in word')
     args = parser.parse_args()
-    result(input_file=args.input_file, output_file=args.output_file, length_of_word=args.number)
+    result(input_stream=args.input_file, output_stream=args.output_file, length_of_word=args.number)
 
 
 if __name__ == '__main__':
